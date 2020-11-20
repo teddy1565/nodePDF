@@ -3,6 +3,7 @@
 # Reference Repo
     QPDF
     node-qpdf
+    PDF.js
 # Reference file
     PDF_reference.pdf --adobe PDF document
   https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdf_reference_archive/pdf_reference_1-7.pdf
