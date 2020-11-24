@@ -66,9 +66,9 @@ function splitPDF(data,reg){
 
 let PrivateTools = {
     /**
-     * Use md5.js
+     * this function use md5.js
      * @param {string|Buffer} --message
-     * @return 
+     * @return HASH string
      */
     MD5:(message)=>{
         return md5js(message);
