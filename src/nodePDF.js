@@ -63,9 +63,47 @@ function splitPDF(data,reg){
     return data.toString('hex').split(REGE);
 }
 
+let PrivateTools = {
+    /**
+     * MD5 HASH string
+     * @param {string} str -- input
+     * @returns {string} Return a HASH string
+     */
+    MD5:(str)=>{
+        //Make string length be (N+1)*512bit
+        let OriginStrLeng = `${str.length}`;
+        for(let i=OriginStrLeng.length;i<64;i++){
+            OriginStrLeng = '0'+OriginStrLeng;
+        }
+        if((str.length%512)!=448)str+='1';
+        while((str.length%512)!=448)str+='0';
+        str+=OriginStrLeng;
+        //Grouping
+        //BigGroup will grouping every 512 bit with string
+        let BigGroup = [];
+        for(let i=0;i<(str.length/512);i++){
+            BigGroup[i]="";
+        }
+        for(let i=0;i<(str.length/512);i++){
+            while(str.length!=0){
+                BigGroup[i]+=str[0];
+                str = str.slice(1);
+            }
+        }
+        //SmallGroup will grouping 16 groups with 512bit string,every SmallGroup will be 32bit
+        let SmallGroup = [];
+        for(let i=0;i<(BigGroup.length)*16;i++){
+            
+        }
+        //Setup shift amounts and initial variable
+        const {R1,R2,R3,R4}={R1:[7,12,17,22],R2:[5,9,14,20],R3:[4,11,16,23],R4:[6,10,15,21]};
+        const {A,B,C,D}={A:"67452301",B:"efcdab89",C:"98badcfe",D:"10325476"};
+        return str;
+    },
+};
+PrivateTools.MD5("AAAAA");
 let nodePDF={
     loadPDFpath:loadPDFpath,
-    loadPDF:loadPDF,
     splitPDF:splitPDF,
     HexToStr:HexToStr,
     StrToHex:StrToHex
