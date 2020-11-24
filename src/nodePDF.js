@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const md5js = require('md5');
 
 let PDFpath=[];
 
@@ -69,7 +70,7 @@ let PrivateTools = {
      * @param {string} str -- input
      * @returns {string} Return a HASH string
      */
-    MD5:(str)=>{
+    learn_MD5v1:(str)=>{
         //Make string length be (N+1)*512bit
         let OriginStrLeng = `${str.length}`;
         for(let i=OriginStrLeng.length;i<64;i++){
@@ -107,7 +108,8 @@ let PrivateTools = {
         //Setup shift amounts and initial variable
         const {R1,R2,R3,R4}={R1:[7,12,17,22],R2:[5,9,14,20],R3:[4,11,16,23],R4:[6,10,15,21]};
         const {A,B,C,D}={A:"67452301",B:"efcdab89",C:"98badcfe",D:"10325476"};
-        const {F,G,H,I,FF,GG,HH,II}={
+        //Initial algorithm
+        const csdn_algorithm = {
             F:(x,y,z)=>{
                 return (x&y)|((~x)&z);
             },
@@ -143,12 +145,69 @@ let PrivateTools = {
                 a = ((a&0xFFFFFFFF) << s) | ((a&0xFFFFFFFF) >>> (32 - s));
                 a += b;
                 return (a&0xFFFFFFFF);
-            },
+            }
         };
+        const wiki_algorithm = {
+            F:(x,y,z)=>{
+                return (x&y)|((~x)&z);
+            },
+            G:(x,y,z)=>{
+                return (x&z)|(y&(~z));
+            },
+            H:(x,y,z)=>{
+                return x^y^z;
+            },
+            I:(x,y,z)=>{
+                return y^(x|(~z));
+            }
+        };
+        let formateStr = (SmallGroup)=>{
+            let res=[];
+            for(let i in SmallGroup){
+                res[i] = Buffer.from(SmallGroup[i],'utf8');
+            }
+            return res;
+        };
+        let response = (formateStr,R,Magic_Number,Algorithm)=>{
+            let Str = [];
+            let res={a,b,c,d};
+            for(let i in formateStr){
+                Str[parseInt(i/16)][i] = formateStr[i];
+            }
+            Algorithm.F(formateStr)
+        };
+        response = response(formateStr(SmallGroup),[R1,R2,R3,R4],[A,B,C,D],wiki_algorithm);
+        console.log(response);
+        //main
         return str;
     },
+    learn_MD5v2:(message)=>{
+        (()=>{
+            let crypt = require('crypt');
+            let utf8 = require('charenc').utf8;
+            let isBuffer = require('is-buffer');
+            let bin = require('charenc').bin;
+            let md5 = function(message,options){
+                if(message.constructor == String){
+                    if(options && options.encoding === 'binary'){
+                        message = bin.stringToBytes(message);
+                    }else{
+                        message = utf8.stringToBytes(message);
+                    }
+                }
+            }
+        })();
+    },
+    /**
+     * Use md5.js
+     * @param {string|Buffer} --message
+     * @return 
+     */
+    MD5:(message)=>{
+        return md5js(message);
+    }
 };
-PrivateTools.MD5("A");
+
 let nodePDF={
     loadPDFpath:loadPDFpath,
     splitPDF:splitPDF,
