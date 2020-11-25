@@ -57,7 +57,7 @@ function StrToHex(Str, encode) {
  * @returns {Array} -- Hex String Array
  */
 function splitPDF(data, reg) {
-  let REGE = /73747265616d+|656e6473747265616d+/;
+  let REGE = "a0";
   if (reg) {
     REGE = new RegExp(reg);
   }
@@ -314,16 +314,18 @@ let PrivateTools = {
     return md5js(message);
   },
   PDFParser: () => {
-    let data = fs.readFileSync("path");
+    let path = "/Users/zhenkaixiong/temp/c.pdf";
+    let outputpath = "/Users/zhenkaixiong/temp/v.json"
+    let data = fs.readFileSync(path);
     let pdfp = require('pdf2json')
     let p = new pdfp;
     p.parseBuffer(data);
     p.on("pdfParser_dataReady", pdfData => {
-      fs.writeFileSync("path", JSON.stringify(pdfData));
+      fs.writeFileSync(outputpath, JSON.stringify(pdfData));
+      let d = fs.readFileSync(outputpath);
+      d = JSON.parse(d.toString('utf8'));
+      console.log(d.formImage.Pages);
     });
-    let d = fs.readFileSync("path");
-    d = JSON.parse(d.toString('utf8'));
-    console.log(d.formImage.Pages);
   }
 };
 let nodePDF = {
