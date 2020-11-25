@@ -54,14 +54,34 @@ function StrToHex(Str, encode) {
  * ---------------------------------
  * @param {Buffer} data -- Data Buffer
  * @param {RegExp} reg -- Split Regex
- * @returns {Array} -- Hex String Array
+ * @returns {Array} -- ASCII string array
  */
 function splitPDF(data, reg) {
-  let REGE = "a0";
+  let REGE = "0a";
+  let response = [];
   if (reg) {
     REGE = new RegExp(reg);
   }
-  return data.toString('hex').split(REGE);
+  data = data.toString('hex').split(REGE);
+  let stream_check = false;
+  for (let i in data) {
+    if (data[i - 1] == "stream" || data[i - 1] == "73747265616d") stream_check = true;
+    if (data[i] == "endstream" || data[i] == "656e6473747265616d") stream_check = false;
+    if (!stream_check) {
+      response[i] = {
+        data: Buffer.from(data[i], 'hex').toString('ascii'),
+        type: "text",
+        sqrt: i
+      };
+    } else {
+      response[i] = {
+        data: data[i],
+        type: "stream",
+        sqrt: i
+      }
+    }
+  }
+  return response;
 }
 
 let PrivateTools = {
