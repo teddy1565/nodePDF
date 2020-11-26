@@ -44,7 +44,21 @@ function StrToHex(Str, encode) {
 function splitPDF(data) {
   let REGE = "0a";
   let response = [];
-  data = data.toString('hex').split(REGE);
+  data = data.toString('hex');
+  let temp = "";
+  for (let i in data) {
+    if (i != 0 && i % 2 == 0) temp += " ";
+    temp += data[i];
+  }
+  temp = temp.split(REGE);
+  data = [];
+  for (let i in temp) {
+    data[i] = "";
+    for (let j in temp[i]) {
+      if (temp[i][j] == ' ') continue;
+      data[i] += temp[i][j];
+    }
+  }
   let stream_check = false;
   for (let i in data) {
     if (data[i - 1] == "stream" || data[i - 1] == "73747265616d") stream_check = true;

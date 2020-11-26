@@ -3,5 +3,5 @@ let PDFpath = "/Users/zhenkaixiong/temp/a.pdf";
 let fs = require('fs');
 let data = fs.readFileSync(PDFpath);
 data = NP.splitPDF(data);
-fs.writeFileSync("/Users/zhenkaixiong/temp/out.json", JSON.stringify(data));
-console.log(1);
+//console.log(data);
+fs.writeFileSync("/Users/zhenkaixiong/temp/out1.json", JSON.stringify(data));
