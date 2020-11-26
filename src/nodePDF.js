@@ -35,33 +35,15 @@ function StrToHex(Str, encode) {
 
 
 /**
- * It will read PDF Buffer and converse to Hex string.  
- * 
- * Then use Regex to Split Buffer and return String array.  
- * 
- * If you want split keyword "stream" and "endstream".  
- * 
- * ---------------------------------
- * You need keyin like this:  
- * > "/73747265616d+|656e6473747265616d+/".  
- * 
- * It's that meam:
- * >/stream+|endstream+/   
- * ---------------------------------
- * 
- * It will build a new RegExp to Split this Hex string and return a HEX string array.   
- * 
+ * It will read PDF Buffer and converse to Hex string.
+ * And also it was split 0a('\n')
  * ---------------------------------
  * @param {Buffer} data -- Data Buffer
- * @param {RegExp} reg -- Split Regex
  * @returns {Array} -- ASCII string array
  */
-function splitPDF(data, reg) {
+function splitPDF(data) {
   let REGE = "0a";
   let response = [];
-  if (reg) {
-    REGE = new RegExp(reg);
-  }
   data = data.toString('hex').split(REGE);
   let stream_check = false;
   for (let i in data) {
