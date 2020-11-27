@@ -39,10 +39,12 @@ function StrToHex(Str, encode) {
  * And also it was split 0a('\n')
  * ---------------------------------
  * @param {Buffer} data -- Data Buffer
+ * @param {bool} platfrom -- win32:true ,unix:false
  * @returns {Array} -- ASCII string array
  */
-function splitPDF(data) {
+function splitPDF(data, platfrom) {
   let REGE = "0a";
+  if (platfrom) REGE = "0d0a";
   let response = [];
   data = data.toString('hex');
   let temp = "";
@@ -81,13 +83,23 @@ function splitPDF(data) {
 }
 
 let PrivateTools = {
+
+  MD5: {
+    /**
+     * Use md5.js
+     * @param {string|Buffer} --message
+     * @return
+     */
+    md5js: (message) => {
+      return md5js(message);
+    },
+  },
   /**
-   * Use md5.js
-   * @param {string|Buffer} --message
-   * @return 
+   * Achieve DEFLATE algorithm
    */
-  MD5: (message) => {
-    return md5js(message);
+  DEFLATE: {
+    Huffman: (message) => { },
+    LZ777: () => { }
   }
 };
 let nodePDF = {
