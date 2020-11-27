@@ -123,6 +123,8 @@ let filters = {
         }
       }
       strheep = ((sheep) => {
+        let performance = require('perf_hooks').performance;
+        let a = performance.now();
         let sheepsqrt = (sheep) => {
           let LS = []; LS.push(sheep[0]);
           let MS = []; MS.push(sheep[sheep.length - 1]);
@@ -160,7 +162,10 @@ let filters = {
           sheep = res.res;
           result.push(res.max);
         }
-        return result;
+        let b = performance.now();
+        console.log(`Time:${b - a}`);
+        //return result;
+        return (b - a);
       })(strheep);
       return strheep;
     },
