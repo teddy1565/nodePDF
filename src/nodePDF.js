@@ -44,7 +44,7 @@ function StrToHex(Str, encode) {
  */
 function splitPDF(data, platfrom) {
   let REGE = "0a";
-  if (platfrom) REGE = "0d0a";
+  if (platfrom) REGE = "0d 0a";
   let response = [];
   data = data.toString('hex');
   let temp = "";
