@@ -94,18 +94,44 @@ let PrivateTools = {
       return md5js(message);
     },
   },
+
+};
+let filters = {
   /**
    * Achieve DEFLATE algorithm
    */
   DEFLATE: {
-    Huffman: (message) => { },
+    /**
+     * @param {string} message --encode string
+     * @returns {Object}
+     */
+    Huffman: (message) => {
+      let strheep = [];
+      for (let i in message) {
+        let find = false;
+        for (let j in strheep) {
+          if (message[i] == strheep[j].text) {
+            find = true;
+            strheep[j].freq++;
+          }
+        }
+        if (find == false) {
+          strheep.push({
+            text: `${message[i]}`,
+            freq: 1
+          });
+        }
+      }
+      return strheep;
+    },
     LZ777: () => { }
   }
-};
+}
 let nodePDF = {
   loadPDFpath: loadPDFpath,
   splitPDF: splitPDF,
   HexToStr: HexToStr,
-  StrToHex: StrToHex
+  StrToHex: StrToHex,
+  filters: filters
 };
 module.exports = nodePDF;
