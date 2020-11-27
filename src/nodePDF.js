@@ -122,6 +122,46 @@ let filters = {
           });
         }
       }
+      strheep = ((sheep) => {
+        let sheepsqrt = (sheep) => {
+          let LS = []; LS.push(sheep[0]);
+          let MS = []; MS.push(sheep[sheep.length - 1]);
+          let res = [], max;
+          for (let i in sheep) {
+            if (sheep[i].freq >= LS[0].freq && sheep[i].text != LS[0].text) LS.push(sheep[i]);
+            if (sheep[i].freq <= MS[0].freq && sheep[i].text != MS[0].text) MS.push(sheep[i]);
+          }
+          if ((!~(LS[0].freq ^ ~MS[0].freq)) || (LS[0].freq > MS[0].freq)) {
+            max = LS[0];
+            for (let i in LS) {
+              if (LS[i].freq >= max.freq) {
+                max = LS[i];
+              }
+            }
+          } else if (LS[0].freq < MS[0].freq) {
+            max = MS[0];
+            for (let i in sheep) {
+              if (sheep[i].freq < MS[0].freq) continue;
+              if (sheep[i].freq >= max.freq) {
+                max = sheep[i];
+              }
+            }
+          }
+          for (let i in sheep) {
+            if (sheep[i].text != max.text) {
+              res.push(sheep[i]);
+            }
+          }
+          return { res, max };
+        }
+        let result = [];
+        while (sheep.length > 0) {
+          let res = sheepsqrt(sheep);
+          sheep = res.res;
+          result.push(res.max);
+        }
+        return result;
+      })(strheep);
       return strheep;
     },
     LZ777: () => { }
