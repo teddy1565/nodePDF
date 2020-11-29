@@ -102,6 +102,8 @@ let filters = {
    */
   DEFLATE: {
     /**
+     * this function is shit
+     * will fix
      * @param {string} message --encode string
      * @returns {Object}
      */
