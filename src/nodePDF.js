@@ -3,7 +3,7 @@ const path = require('path');
 const md5js = require('md5');
 const PDFParser = require('pdf2json');
 let PDFpath = [];
-
+/*This program will pause some days*/
 /**
  * Record PDF file path
  * @param {string} path -- File Path
