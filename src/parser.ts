@@ -47,7 +47,7 @@ export function split_PDF_buffer(data: Buffer, platfrom: NodeJS.Platform): Array
             stream_check = false;
         }
 
-        if (split_data[i - 1] === "stream" || split_data[i - 1] === "73747265616d") {
+        if (i > 0 && (split_data[i - 1] === "stream" || split_data[i - 1] === "73747265616d")) {
             stream_check = true
         }
 
